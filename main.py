@@ -56,7 +56,8 @@ def main_loop():
             print("Step1")
             # Getting Step n+1
             # Create Binary Matrix
-            Brett = np.empty(shape=(space_y,space_x))
+            Brett = np.zeros((space_x,space_y), dtype=int)
+
             print(Brett)
             # define neighbours for each board tile and for each neighbour check the game condition
             #       up       right   down    left     upleft   upright downright downleft
