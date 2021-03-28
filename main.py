@@ -7,10 +7,30 @@ global WHITE, RED, BLACK
 WHITE = pg.Color(255, 255, 255)
 RED = pg.Color(255, 0, 0)
 BLACK = (0,0,0)
-SQUARES=16
+SQUARES=32
 grid = np.zeros((SQUARES,SQUARES), dtype=int)
 
+def count_neighbors(cell):
+    i = cell[0]
+    j = cell[1]
+    sub_grid = [[grid[i-1][j-1], grid[i][j-1], grid[i+1][j-1]],
+                [grid[i-1][j],   grid[i][j],   grid[i+1][j]],
+                [grid[i-1][j+1], grid[i][j+1], grid[i+1][j+1]]]
+    sub_grid = np.transpose(np.squeeze(sub_grid))
+    print(sub_grid)
+    non_zero = np.where(sub_grid.nonzero())
+    return non_zero
 
+def calc_game_of_life():
+    for i in range(SQUARES):
+        for j in range(SQUARES):
+            if grid[i][j]:
+                neighbors = count_neighbors((i,j))
+                if (max(neighbors[1])<2):
+                    grid[i][j]=0;
+                # print(neighbors[1])
+                # if not neighbors:
+                #     grid[i][j] = 0
 
 def draw_grid(window, MOUSE):
     w,h = pg.display.get_surface().get_size()
@@ -23,7 +43,12 @@ def draw_grid(window, MOUSE):
     if MOUSE != (0,0):
         grid_y = int(MOUSE[0]/square_width)
         grid_x = int(MOUSE[1]/square_hight)
-        grid[grid_x][grid_y] = 1;
+        if grid[grid_x][grid_y]: 
+            grid[grid_x][grid_y] = 0
+        else:
+            grid[grid_x][grid_y] = 1;
+
+
 
     # window.fill(WHITE)
     for i in range(SQUARES):
@@ -38,7 +63,6 @@ def draw_grid(window, MOUSE):
             else:
                 rect = pg.Rect(position_x,position_y,square_width ,square_hight)
                 pg.draw.rect(window, BLACK, rect)
-
             pg.display.update()
 
 def main_loop():
@@ -60,6 +84,12 @@ def main_loop():
             elif e.type == pg.MOUSEBUTTONUP:
                 MOUSE = pg.mouse.get_pos()
                 draw_grid(window, MOUSE)
+            elif e.type == pg.KEYDOWN:
+                if(e.key==pg.K_RETURN):
+                    calc_game_of_life()
+                    draw_grid(window, (0,0))
+
+
 
 if __name__ == "__main__":
     main_loop()
