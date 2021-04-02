@@ -3,31 +3,31 @@ from random import *
 import time as t
 import numpy as np
 
+# Options:
+# Winows Size
+pxl_x = 400
+pxl_y = 300
+# Seed-Number (start shuffel loops)
+start_count = 10
+# keep below 1k!!!
+# Width of each cell
+width = 50
+colour_w = (255, 255, 255)
+colour = (0, 0, 0)
+space_y = pxl_y // width
+space_x = pxl_x // width
+# Creating empty Board
+Brett = np.zeros((space_y, space_x), dtype=int)
+
 
 def main_loop():
     pg.init()
     running = True
-    # Options:
-    # Winows Size
-    pxl_x = 400
-    pxl_y = 300
-    # Seed-Number (start shuffel loops)
-    start_count = 10
-    # keep below 1k!!!
-    # Width of each cell
-    width = 50
     window = pg.display.set_mode((pxl_x, pxl_y))
-    # Colours
-    colour_w = (255,255,255)
     window.fill(colour_w)
-    colour = (0, 0, 0)
-    space_y = pxl_y // width
-    space_x = pxl_x // width
     s_count_total = randint(0, space_y * space_x)
     s_count_y = randint(0, space_y-1)
     s_count_x = randint(0, space_x-1)
-    #Creating empty Board
-    Brett = np.zeros((space_y, space_x), dtype=int)
     init = 1
     while running and init > 0:
         # Get a start situation:
@@ -62,7 +62,7 @@ def main_loop():
     while running and init < 0:
         print("Step1")
         # Getting Step n+1
-        #Prepaare Board acess
+        #Prepare Board acess
         base_y=len(Brett)
         base_x=len(Brett[0])
         # Copy Board
@@ -75,12 +75,13 @@ def main_loop():
             for b_x in range(base_x):
                 #print("b_x:",b_x)
                 l_nbs = 0
-                for nb in nbs:
+                for nb inx nbs:
                     y = b_y + nb[1]
                     x = b_x + nb[0]
-                    #print("n_y:", y)
-                    #print("n_x:", x)
+                    print("n_y:", y)
+                    print("n_x:", x)
                     #Vergleich ob Nachbarn bereits existieren
+                    print("l_nbs:", l_nbs)
                     if (y < b_y and y >= 0 ) and (x < b_x and x >= 0) and (Brett_neu[y][x] == 1):
                         l_nbs += 1
                         print ("l_nbs:",l_nbs)
